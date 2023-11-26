@@ -1,0 +1,22 @@
+service: amazon-scraper
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-2
+
+functions:
+  scrapeAndSave:
+    handler: handler.scrapeAndSave
+    events:
+      - http:
+          path: scrape
+          method: get
+      - schedule: rate(1 day)
+
+  getTopProducts:
+    handler: handler.getTopProducts
+    events:
+      - http:
+          path: products
+          method: get
