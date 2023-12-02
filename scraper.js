@@ -1,11 +1,18 @@
 const puppeteer = require('puppeteer');
 const AWS = require('aws-sdk');
 
+// Configuração do AWS SDK (ajuste com suas credenciais e região conforme necessário)
+AWS.config.update({
+    region: 'us-east-2',
+    // credenciais, se necessário
+});
+
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 async function getTopProducts() {
+    let browser;
     try {
-        const browser = await puppeteer.launch();
+        browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto('https://www.amazon.com.br/bestsellers');
 
@@ -16,21 +23,24 @@ async function getTopProducts() {
             }))
         );
 
-        await browser.close();
-
-        for (const product of products) {
+        // Inserir todos os produtos no DynamoDB de uma vez usando Promise.all
+        await Promise.all(products.map(product => {
             const params = {
                 TableName: 'Products',
                 Item: product,
             };
 
-            await dynamoDB.put(params).promise();
-            console.log(`Produto salvo com sucesso: ${product.title}`);
-        }
+            return dynamoDB.put(params).promise().then(() => {
+                console.log(`Produto salvo com sucesso: ${product.title}`);
+            });
+        }));
 
         console.log('Scraping e salvamento no DynamoDB concluídos com sucesso!');
     } catch (error) {
         console.error('Erro durante o scraping ou salvamento no DynamoDB:', error);
+    } finally {
+        // Fechar o navegador mesmo que ocorra um erro
+        if (browser) await browser.close();
     }
 }
 
