@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 
 // Configuração do AWS SDK (ajuste com suas credenciais e região conforme necessário)
 AWS.config.update({
-    region: 'us-east-2',
+    region: 'us-east-2', // 
     // credenciais, se necessário
 });
 
