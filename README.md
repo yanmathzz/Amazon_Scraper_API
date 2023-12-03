@@ -38,7 +38,27 @@ npm install
 Configure suas credenciais da AWS no arquivo de configuração
 
 Deploy usando Serverless
+
 serverless deploy
+
+## Pré-requisitos e Instalação
+Para executar este projeto, você precisará das seguintes ferramentas e configurações em sua máquina:
+ 
+  - Node.js
+Instale o Node.js, disponível no site oficial do Node.js.
+
+  - Dependências do Projeto
+Após clonar o repositório, execute npm install na raiz do projeto para instalar as dependências necessárias.
+
+  - AWS CLI (Opcional)
+Para configurar as credenciais da AWS localmente, instale o AWS CLI seguindo as instruções no site da AWS.
+
+  - Serverless Framework
+Instale o Serverless Framework globalmente via NPM: npm install -g serverless.
+
+  - Configuração das Credenciais da AWS
+Configure suas credenciais da AWS para permitir o acesso aos serviços utilizados pelo projeto. Isso pode ser feito através do AWS CLI ou definindo variáveis de ambiente.
+
 
 ## 🌱 Melhorias e Funcionalidades Extras
 - Adicionar rotinas de atualização automática.
